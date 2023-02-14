@@ -694,13 +694,13 @@ class RoutingUrlGeneratorTest extends TestCase
             Request::create('http://www.foo.com/')
         );
 
-        $this->assertSame('http://www.bar.com/foo', $url->to('http://www.bar.com/foo'));
-        $this->assertSame('https://www.bar.com/foo', $url->to('http://www.bar.com/foo', [], true));
+        $this->assertSame('http://www.foo.com/bar', $url->to('http://www.foo.com/bar'));
+        $this->assertSame('https://www.foo.com/bar', $url->to('http://www.foo.com/bar', [], true));
 
         $url->forceScheme('https');
 
+        $this->assertSame('https://www.foo.com/bar', $url->to('http://www.foo.com/bar'));
         $this->assertSame('https://www.bar.com/foo', $url->to('http://www.bar.com/foo'));
-        $this->assertSame('https://www.random.com/foo', $url->to('http://www.random.com/foo'));
     }
 
     public function testPrevious()
