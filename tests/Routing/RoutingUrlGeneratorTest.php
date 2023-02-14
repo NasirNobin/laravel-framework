@@ -685,6 +685,22 @@ class RoutingUrlGeneratorTest extends TestCase
 
         $url->forceRootUrl('https://www.bar.com');
         $this->assertSame('https://www.bar.com/foo', $url->route('plain'));
+
+        /*
+         * Absolute URL with Force Scheme...
+         */
+        $url = new UrlGenerator(
+            $routes = new RouteCollection,
+            Request::create('http://www.foo.com/')
+        );
+
+        $this->assertSame('http://www.bar.com/foo', $url->to('http://www.bar.com/foo'));
+        $this->assertSame('https://www.bar.com/foo', $url->to('http://www.bar.com/foo', [], true));
+
+        $url->forceScheme('https');
+
+        $this->assertSame('https://www.bar.com/foo', $url->to('http://www.bar.com/foo'));
+        $this->assertSame('https://www.random.com/foo', $url->to('http://www.random.com/foo'));
     }
 
     public function testPrevious()
