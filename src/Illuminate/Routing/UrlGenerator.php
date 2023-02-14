@@ -206,7 +206,9 @@ class UrlGenerator implements UrlGeneratorContract
         // generate a new one but will simply return the URL after changing the scheme,
         // which is convenient since we do not always have to check if it's valid.
         if ($this->isValidUrl($path)) {
-            return preg_replace('~^https?://~', $this->formatScheme($secure), $path);
+            return str_starts_with($path, $this->formatScheme($secure))
+                ? $path
+                : preg_replace('~^https?://~', $this->formatScheme($secure), $path);
         }
 
         $tail = implode('/', array_map(
